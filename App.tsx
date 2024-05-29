@@ -1,13 +1,22 @@
 import React from 'react';
 import { NavigationContainer, DarkTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Text } from 'react-native';
 import CalendarComponent from './src/components/CalendarComponent';
 import BoulderRecordStackScreen from './src/components/BoulderRecordStackScreen';
 import WorkoutRecordComponent from './src/components/WorkoutRecordComponent';
-
+import ExerciseDetail from './src/components/ExerciseDetail';
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+const WorkoutStackNavigator = () => (
+  <Stack.Navigator>
+    <Stack.Screen name="WorkoutRecord" component={WorkoutRecordComponent} options={{ headerShown: false }}/>
+    <Stack.Screen name="ExerciseDetail" component={ExerciseDetail} options={{ headerShown: false }}/>
+  </Stack.Navigator>
+);
 
 const App: React.FC = () => {
   return (
@@ -19,9 +28,9 @@ const App: React.FC = () => {
             if (route.name === '출석체크') {
               emoji = '📅';
             } else if (route.name === '볼더링 과제') {
-              emoji = '🧗‍♂️'; // 클라이밍 이모지
-            } else if (route.name === 'Workout Record') {
-              emoji = '🏋️‍♀️'; // 역도 이모지
+              emoji = '🧗‍♂️';
+            } else if (route.name === '운동 기록') {
+              emoji = '🏋️‍♀️';
             }
             return <Text style={{ fontSize: focused ? 30 : 25 }}>{emoji}</Text>;
           },
@@ -32,7 +41,7 @@ const App: React.FC = () => {
       >
         <Tab.Screen name="출석체크" component={CalendarComponent} />
         <Tab.Screen name="볼더링 과제" component={BoulderRecordStackScreen} />
-        <Tab.Screen name="Workout Record" component={WorkoutRecordComponent} />
+        <Tab.Screen name="운동 기록" component={WorkoutStackNavigator}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
